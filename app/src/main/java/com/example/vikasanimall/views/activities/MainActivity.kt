@@ -2,13 +2,7 @@ package com.example.vikasanimall.views.activities
 
 //import com.example.vikasanimall.ui.theme
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Configuration
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.compose.material3.Text
@@ -94,24 +88,10 @@ class MainActivity : FragmentActivity() {
                 CustomFunctions.showFeedbackMessage(binding.rootLayout, "Back Online")
             }
         })
-    /*    setContent {
-            VikasAnimallTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
-        }*/
     }
 
     override fun onStart() {
         super.onStart()
-        /*val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        registerReceiver(networkReceiver, intentFilter)*/
-
     }
 
     override fun onResume() {
@@ -125,8 +105,6 @@ class MainActivity : FragmentActivity() {
 
     override fun onPause() {
         super.onPause()
-        /*if (networkReceiver != null)
-            unregisterReceiver(networkReceiver);*/
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
