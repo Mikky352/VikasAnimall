@@ -20,11 +20,9 @@ import com.google.android.material.snackbar.Snackbar
 object CustomFunctions {
     var mDialogProgress: AlertDialog? = null
 
-
+    val BASE_URL = "https://storage.googleapis.com/animall.appspot.com/android-interview/"
 
     fun showProgressBar(activity: Activity, message: String) {
-
-
 
         val alertDialog = AlertDialog.Builder(activity)
         alertDialog.setCancelable(false)

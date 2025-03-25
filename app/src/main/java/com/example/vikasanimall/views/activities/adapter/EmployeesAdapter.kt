@@ -42,7 +42,7 @@ class EmployeesAdapter(val employeeList: MutableList<Employee>) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       holder.employeetName.setText(employeeList[position].name)
+        holder.employeetName.setText(employeeList[position].name)
         holder.employeetJob.setText(employeeList.get(position).employeeType)
         holder.employeetTeam.setText(employeeList.get(position).team)
         holder.employeetEmail.setText(employeeList.get(position).email)

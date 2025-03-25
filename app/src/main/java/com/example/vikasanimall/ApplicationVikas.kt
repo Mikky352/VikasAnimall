@@ -5,14 +5,8 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class ApplicationVikas: Application() {
-
-
     override fun onCreate() {
         super.onCreate()
     }
-
-
-
-
 
 }

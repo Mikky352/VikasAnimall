@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.vikasanimall.R
 import com.example.vikasanimall.databinding.MainActivityBinding
 import com.example.vikasanimall.model.Employee
 import com.example.vikasanimall.util.CustomFunctions
@@ -30,8 +31,7 @@ import java.util.Random
 class MainActivity : FragmentActivity() {
      private lateinit var binding : MainActivityBinding
      private lateinit var mainActivityViewModel: MainActivityViewModel;
-
-    var  employeeList :MutableList<Employee> = ArrayList()
+     var  employeeList :MutableList<Employee> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
@@ -42,19 +42,18 @@ class MainActivity : FragmentActivity() {
         mainActivityViewModel.successfullyGetEmployee.observe(this, Observer {
             var responseData = it.body()
             employeeList = responseData?.employees!!
-            Log.e("ResponseObject","response object is "+responseData?.employees)
+          //  Log.e("ResponseObject","response object is "+responseData?.employees)
             setAdapter()
         })
         binding.swipeRefreshLayout.setOnRefreshListener {
 
             mainActivityViewModel.getEmployees()
 
-
         }
         mainActivityViewModel.successfullyGetEmployeeSwipe.observe(this, Observer {
             var responseData = it.body()
             employeeList = responseData?.employees!!
-            Log.e("ResponseObject","response object is "+responseData?.employees)
+          //  Log.e("ResponseObject","response object is "+responseData?.employees)
             Collections.shuffle(employeeList, Random(System.currentTimeMillis()))
             setAdapter()
             binding.swipeRefreshLayout.isRefreshing = false
@@ -64,7 +63,7 @@ class MainActivity : FragmentActivity() {
             if (it) {
                 CustomFunctions.showProgressBar(
                     this@MainActivity,
-                    "Loading...."
+                    getString(R.string.loading)
                 )
             } else {
                 CustomFunctions.hideProgressBar()
@@ -72,13 +71,13 @@ class MainActivity : FragmentActivity() {
         })
         mainActivityViewModel.listEmpty.observe(this, Observer {
             if (it) {
-                CustomFunctions.showFeedbackMessage(binding.rootLayout, "List Found in Response is Empty")
+                CustomFunctions.showFeedbackMessage(binding.rootLayout, getString(R.string.list_not_found))
             }
         })
 
         mainActivityViewModel.feedBackMessage.observe(this, Observer {
             CustomFunctions.showFeedbackMessage(binding.rootLayout, it)
-            if(it.equals("No internet")){
+            if(it.equals(getString(R.string.noInternet))){
                 binding.swipeRefreshLayout.isRefreshing = false
             }
         })
@@ -86,12 +85,12 @@ class MainActivity : FragmentActivity() {
         lifecycleScope.launch {
             mainActivityViewModel.noInternetData.collect{
                 if(it) {
-                    CustomFunctions.showFeedbackMessage(binding.rootLayout, "No internet")
+                    CustomFunctions.showFeedbackMessage(binding.rootLayout, getString(R.string.noInternet))
                     binding.swipeRefreshLayout.isRefreshing = false
                 }else{
                     mainActivityViewModel.getEmployees()
                     if(mainActivityViewModel.configurationChange == false)
-                        CustomFunctions.showFeedbackMessage(binding.rootLayout, "Back Online")
+                        CustomFunctions.showFeedbackMessage(binding.rootLayout, getString(R.string.back_online))
                 }
             }
         }

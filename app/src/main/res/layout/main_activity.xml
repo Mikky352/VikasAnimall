@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
         android:layout_marginTop="20dp"
-        android:text="List of Employees"
+        android:text="@string/list_of_empyloyees"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

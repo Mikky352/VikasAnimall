@@ -1,5 +1,6 @@
 package com.example.vikasanimall.network
 
+import com.example.vikasanimall.util.CustomFunctions
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.Module
@@ -17,7 +18,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideBaseUrl(): String {
-        return "https://storage.googleapis.com/animall.appspot.com/android-interview/"
+        return CustomFunctions.BASE_URL
     }
 
     @Singleton

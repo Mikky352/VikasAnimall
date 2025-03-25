@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.vikasanimall.R
 import com.example.vikasanimall.model.GetemployeeResponse
 import com.example.vikasanimall.network.Api
 import com.example.vikasanimall.network.Repository
@@ -27,7 +28,7 @@ class MainActivityViewModel @Inject constructor(private val api: Api ,private  v
     var successfullyGetEmployee: MutableLiveData<retrofit2.Response<GetemployeeResponse>> = MutableLiveData()
     var successfullyGetEmployeeSwipe: MutableLiveData<retrofit2.Response<GetemployeeResponse>> = MutableLiveData()
     var noInternetData : MutableSharedFlow<Boolean> = MutableSharedFlow()
-    val  applicationContext = application
+    val applicationContext = application
     var networkRegistor : BroadcastReceiver
     var configurationChange : Boolean = true
 
@@ -98,7 +99,7 @@ class MainActivityViewModel @Inject constructor(private val api: Api ,private  v
         }else{
             Coroutines.mainThread {
                 progressBar.value = false
-                feedBackMessage.value = "No internet"
+                feedBackMessage.value = application.getString(R.string.noInternet)
             }
         }
 
