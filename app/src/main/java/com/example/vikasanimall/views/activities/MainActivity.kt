@@ -82,7 +82,7 @@ class MainActivity : FragmentActivity() {
                 binding.swipeRefreshLayout.isRefreshing = false
             }
         })
-        
+
         lifecycleScope.launch {
             mainActivityViewModel.noInternetData.collect{
                 if(it) {
@@ -95,19 +95,6 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }
-
-
-
-       /* mainActivityViewModel.noInternet.observe(this, Observer {
-            if(it) {
-                CustomFunctions.showFeedbackMessage(binding.rootLayout, "No internet")
-                binding.swipeRefreshLayout.isRefreshing = false
-            }else{
-                mainActivityViewModel.getEmployees()
-                if(mainActivityViewModel.configurationChange == false)
-                CustomFunctions.showFeedbackMessage(binding.rootLayout, "Back Online")
-            }
-        })*/
     }
 
     override fun onStart() {

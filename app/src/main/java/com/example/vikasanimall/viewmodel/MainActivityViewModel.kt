@@ -33,7 +33,6 @@ class MainActivityViewModel @Inject constructor(private val api: Api ,private  v
 
     init{
     //   api =  Repository.retrofit.create(Api::class.java)
-
        networkRegistor = object : BroadcastReceiver() {
            override fun onReceive(context: Context, intent: Intent) {
                if (intent.action == ConnectivityManager.CONNECTIVITY_ACTION) {
@@ -41,13 +40,11 @@ class MainActivityViewModel @Inject constructor(private val api: Api ,private  v
                        intent.getParcelableExtra<NetworkInfo>(ConnectivityManager.EXTRA_NETWORK_INFO)
                    if (networkInfo != null && networkInfo.detailedState == NetworkInfo.DetailedState.CONNECTED) {
                        //    Log.d(LOG_TAG, "We have internet connection. Good to go.")
-                   //    noInternet.value = false
                        viewModelScope.launch {
                            noInternetData.emit(false)
                        }
                    } else if (networkInfo != null && networkInfo.detailedState == NetworkInfo.DetailedState.DISCONNECTED) {
                        // Log.d(LOG_TAG, "We have lost internet connection")
-                      //   noInternet.value = true
                        viewModelScope.launch {
                            noInternetData.emit(true)
                        }
