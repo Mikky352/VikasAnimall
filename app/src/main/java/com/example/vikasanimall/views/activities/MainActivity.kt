@@ -4,6 +4,7 @@ package com.example.vikasanimall.views.activities
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.provider.Settings.Global
 import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.vikasanimall.databinding.MainActivityBinding
 import com.example.vikasanimall.model.Employee
@@ -19,6 +21,8 @@ import com.example.vikasanimall.util.CustomFunctions
 import com.example.vikasanimall.viewmodel.MainActivityViewModel
 import com.example.vikasanimall.views.activities.adapter.EmployeesAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ActivityScoped
+import kotlinx.coroutines.launch
 import java.util.Collections
 import java.util.Random
 
@@ -78,7 +82,23 @@ class MainActivity : FragmentActivity() {
                 binding.swipeRefreshLayout.isRefreshing = false
             }
         })
-        mainActivityViewModel.noInternet.observe(this, Observer {
+        
+        lifecycleScope.launch {
+            mainActivityViewModel.noInternetData.collect{
+                if(it) {
+                    CustomFunctions.showFeedbackMessage(binding.rootLayout, "No internet")
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }else{
+                    mainActivityViewModel.getEmployees()
+                    if(mainActivityViewModel.configurationChange == false)
+                        CustomFunctions.showFeedbackMessage(binding.rootLayout, "Back Online")
+                }
+            }
+        }
+
+
+
+       /* mainActivityViewModel.noInternet.observe(this, Observer {
             if(it) {
                 CustomFunctions.showFeedbackMessage(binding.rootLayout, "No internet")
                 binding.swipeRefreshLayout.isRefreshing = false
@@ -87,7 +107,7 @@ class MainActivity : FragmentActivity() {
                 if(mainActivityViewModel.configurationChange == false)
                 CustomFunctions.showFeedbackMessage(binding.rootLayout, "Back Online")
             }
-        })
+        })*/
     }
 
     override fun onStart() {

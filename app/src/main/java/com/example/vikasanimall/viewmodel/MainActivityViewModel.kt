@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.vikasanimall.model.GetemployeeResponse
 import com.example.vikasanimall.network.Api
 import com.example.vikasanimall.network.Repository
@@ -16,6 +17,8 @@ import com.example.vikasanimall.util.Coroutines
 import com.example.vikasanimall.util.CustomFunctions
 import com.example.vikasanimall.util.NoInternetException
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +26,7 @@ class MainActivityViewModel @Inject constructor(private val api: Api ,private  v
 
     var successfullyGetEmployee: MutableLiveData<retrofit2.Response<GetemployeeResponse>> = MutableLiveData()
     var successfullyGetEmployeeSwipe: MutableLiveData<retrofit2.Response<GetemployeeResponse>> = MutableLiveData()
+    var noInternetData : MutableSharedFlow<Boolean> = MutableSharedFlow()
     val  applicationContext = application
     var networkRegistor : BroadcastReceiver
     var configurationChange : Boolean = true
@@ -37,10 +41,16 @@ class MainActivityViewModel @Inject constructor(private val api: Api ,private  v
                        intent.getParcelableExtra<NetworkInfo>(ConnectivityManager.EXTRA_NETWORK_INFO)
                    if (networkInfo != null && networkInfo.detailedState == NetworkInfo.DetailedState.CONNECTED) {
                        //    Log.d(LOG_TAG, "We have internet connection. Good to go.")
-                       noInternet.value = false
+                   //    noInternet.value = false
+                       viewModelScope.launch {
+                           noInternetData.emit(false)
+                       }
                    } else if (networkInfo != null && networkInfo.detailedState == NetworkInfo.DetailedState.DISCONNECTED) {
                        // Log.d(LOG_TAG, "We have lost internet connection")
-                         noInternet.value = true
+                      //   noInternet.value = true
+                       viewModelScope.launch {
+                           noInternetData.emit(true)
+                       }
                          configurationChange = false
                    }
                }
